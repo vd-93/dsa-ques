@@ -17,18 +17,18 @@ public:
         int min = INT_MAX;
         int maxProfit = 0;
 
-        for(int i = 0; i < prices.size(); i++) {
-            if(prices[i] < min) {
+        for (int i = 0; i < prices.size(); i++) {
+            if (prices[i] < min) {
                 min = prices[i];
-                // as the buy and sell day would be the same here, as we have set min to prices[i] here, so we are not considering this day for sell
-                continue;
+            } else {
+                maxProfit = max(maxProfit, prices[i] - min);
             }
-            maxProfit = max(maxProfit, prices[i] - min);
         }
         return maxProfit;
     }
 
-    // M-3 : buy index, sell index (Not for interview, just the approach that I thought of while solving the question, the approach is similar to M-2)
+    // M-3 : buy index, sell index (Not for interview, just the approach that I
+    // thought of while solving the question, the approach is similar to M-2)
     // int maxProfit(vector<int>& prices) {
     //     int maxProfit = 0;
     //     // Initialize buy index to 0
@@ -42,7 +42,8 @@ public:
     //             sellI = i;
     //         }
 
-    //         // If ith day's price is lower than the buyI th day -> assign buyI =
+    //         // If ith day's price is lower than the buyI th day -> assign
+    //         buyI =
     //         // i
     //         if (prices[i] < prices[buyI]) {
     //             buyI = i;
