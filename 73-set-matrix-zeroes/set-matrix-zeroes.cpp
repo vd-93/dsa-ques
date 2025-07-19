@@ -62,27 +62,80 @@ public:
     // }
 
     // M-3 : Using vectors instead of unordered_set to mark the rows and columns
+    // void setZeroes(vector<vector<int>>& matrix) {
+    //     int m = matrix.size(); // no. of rows
+    //     int n = matrix[0].size(); // no. of cols
+        
+    //     // Vectors to mark rows and cols which we have to make 0s
+    //     vector<int> rows(m, 0);
+    //     vector<int> cols(n, 0);
+
+    //     // Marking rows and columns
+    //     for(int i = 0; i < m; i++) {
+    //         for(int j = 0; j < n; j++) {
+    //             if(matrix[i][j] == 0) {
+    //                 rows[i] = 1;
+    //                 cols[j] = 1;
+    //             }
+    //         }
+    //     }
+
+    //     // Making rows and columns 0's
+    //     for(int i = 0; i < m; i++) {
+    //         for(int j = 0; j < n; j++) {
+    //             if(rows[i] == 1 || cols[j] == 1) {
+    //                 matrix[i][j] = 0;
+    //             }
+    //         }
+    //     }
+    // }
+
+    // M-4 : Using matrix's first row and column for marking
     void setZeroes(vector<vector<int>>& matrix) {
-        int m = matrix.size(); // no. of rows
-        int n = matrix[0].size(); // no. of cols
+        int m = matrix.size();
+        int n = matrix[0].size();
 
-        vector<int> rows(m, 0);
-        vector<int> cols(n, 0);
+        // separate for marking first column due to intersection of first row and column
+        int col0 = 1;
 
+        // marking rows and columns
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 if(matrix[i][j] == 0) {
-                    rows[i] = 1;
-                    cols[j] = 1;
+                    // marking row
+                    matrix[i][0] = 0;
+
+                    // marking column
+                    if(j == 0) {
+                        col0 = 0;
+                    }
+                    else {
+                        matrix[0][j] = 0;
+                    }
                 }
             }
         }
 
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                if(rows[i] == 1 || cols[j] == 1) {
+        // Setting rows and columns to 0s based on markers in 1st row and column
+        for(int i = 1; i < m; i++) {
+            for(int j = 1; j < n; j++) {
+                if(matrix[0][j] == 0 || matrix[i][0] == 0) {
                     matrix[i][j] = 0;
                 }
+            }
+        }
+
+        // Making 1st row zero if needed
+        if(matrix[0][0] == 0) {
+            for(int j = 0; j < n; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        // Making 1st column zero if needed
+        if(col0 == 0) {
+            for(int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
             }
         }
     }
