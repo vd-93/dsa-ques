@@ -4,7 +4,8 @@ public:
         long long hoursReq = 0;
 
         for (int numOfBananas : piles) {
-            hoursReq += ceil((double)numOfBananas / (double)hourly);
+            // hoursReq += ceil((double)numOfBananas / (double)hourly);
+            hoursReq += (numOfBananas + hourly - 1) / hourly;
         }
         return hoursReq;
     }
