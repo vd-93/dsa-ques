@@ -21,21 +21,23 @@ public:
     - So total complexity = O(n * log(sum - max))
     */
 
-    // Helper function to compute the number of days required for a given ship capacity
+    // Helper function to compute the number of days required for a given ship
+    // capacity
     int getReqDays(vector<int>& weights, int capacity) {
-        int reqDays = 1; // Start with day 1
-        int wtSum = 0;
+        int reqDays = 1; // Start with the first day
+        int wtSum = 0;   // Current day's total weight
 
         for (int wt : weights) {
-            // If adding this package exceeds capacity, use a new day
+            // If adding current weight exceeds capacity, start a new day
             if (wtSum + wt > capacity) {
-                reqDays++; // Start new day
-                wtSum = 0; // Reset weight sum
+                reqDays++;  // Increment the number of days
+                wtSum = wt; // Start new day with current weight
+            } else {
+                wtSum += wt; // Accumulate weight in current day
             }
-            wtSum += wt;
         }
 
-        return reqDays;
+        return reqDays; // Return total number of days required
     }
 
     int shipWithinDays(vector<int>& weights, int days) {
@@ -45,7 +47,7 @@ public:
         // Determine the search range for capacity
         for (int wt : weights) {
             maxWt = max(wt, maxWt); // Minimum possible capacity
-            wtSum += wt;          // Maximum possible capacity
+            wtSum += wt;            // Maximum possible capacity
         }
 
         int low = maxWt, high = wtSum;
