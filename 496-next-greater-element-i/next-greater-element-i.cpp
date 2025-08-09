@@ -1,44 +1,74 @@
 class Solution {
 public:
-    // M-3 (Optimal) Prefer
+    // M-4 (Optimal)
+    // TC - O(n1 + n2), SC - O(n2)
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
         unordered_map<int, int> nextGreater;
         stack<int> st;
         vector<int> result;
 
-        // Traverse nums2 in reverse to build the next greater map
-        for (int i = nums2.size() - 1; i >= 0; i--) {
-            int num = nums2[i];
-
-            /*
-            Pop all elements smaller than the current number from the stack.
-            These elements cannot be the next greater element (NGE) for any
-            element to the left, because the current number is greater and
-            appears closer to the left side. So, the current number is a better
-            candidate for NGE than any of the smaller elements being removed.
-            */
-            while (!st.empty() && st.top() < num) {
+        // Traverse nums2 to fill nextGreater map
+        for(int num : nums2) {
+            // If current number is greater than the top of stack, it's the next greater
+            while(!st.empty() && num > st.top()) {
+                nextGreater[st.top()] = num;
                 st.pop();
             }
-
-            /* This means the current num has no next greater element*/
-            if (st.empty()) {
-                nextGreater[num] = -1;
-            } else {
-                // Top of stack is the next greater element
-                nextGreater[num] = st.top();
-            }
-
             st.push(num);
         }
 
-        // For each number in nums1, fetch its next greater from map
-        for (int num : nums1) {
+        // Remaining elements in stack don't have a next greater element
+        while(!st.empty()) {
+            nextGreater[st.top()] = -1;
+            st.pop();
+        }
+
+        for(int num : nums1) {
             result.push_back(nextGreater[num]);
         }
 
         return result;
     }
+
+    // M-3 (Optimal) Prefer
+    // vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+    //     unordered_map<int, int> nextGreater;
+    //     stack<int> st;
+    //     vector<int> result;
+
+    //     // Traverse nums2 in reverse to build the next greater map
+    //     for (int i = nums2.size() - 1; i >= 0; i--) {
+    //         int num = nums2[i];
+
+    //         /*
+    //         Pop all elements smaller than the current number from the stack.
+    //         These elements cannot be the next greater element (NGE) for any
+    //         element to the left, because the current number is greater and
+    //         appears closer to the left side. So, the current number is a better
+    //         candidate for NGE than any of the smaller elements being removed.
+    //         */
+    //         while (!st.empty() && st.top() < num) {
+    //             st.pop();
+    //         }
+
+    //         /* This means the current num has no next greater element*/
+    //         if (st.empty()) {
+    //             nextGreater[num] = -1;
+    //         } else {
+    //             // Top of stack is the next greater element
+    //             nextGreater[num] = st.top();
+    //         }
+
+    //         st.push(num);
+    //     }
+
+    //     // For each number in nums1, fetch its next greater from map
+    //     for (int num : nums1) {
+    //         result.push_back(nextGreater[num]);
+    //     }
+
+    //     return result;
+    // }
 
     /* M-2 : Brute
     using map to store the indices of the elements of nums2, so that there will
