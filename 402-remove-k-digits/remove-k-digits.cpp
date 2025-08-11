@@ -10,45 +10,70 @@ edge cases :1) k == num's size -> return "0"
 */
 class Solution {
 public:
-    // M-2 : Same logic diff code
+    // M-3 : Clean code and using string instead of stack to avoid reversing
     string removeKdigits(string num, int k) {
-        stack<char> st;
+        string res;
 
-        for(int i = 0; i < num.size(); i++) {
-            while(!st.empty() && k > 0 && (int)st.top() > (int)num[i]) {
-                st.pop();
+        for(char digit : num) {
+            while(!res.empty() && k > 0 && res.back() > digit) {
+                res.pop_back();
                 k--;
             }
-            st.push(num[i]);
+            res.push_back(digit);
         }
 
         while(k) {
-            st.pop();
+            res.pop_back();
             k--;
         }
 
-        if(st.empty()) {
-            return "0";
-        }
+        int i = 0;
+        while(i < res.size() && res[i] == '0') i++;
 
-        string res = "";
+        res = res.substr(i);
 
-        while(!st.empty()) {
-            res += st.top();
-            st.pop();
-        }
-
-        while(!res.empty() && res.back() == '0') {
-            res.pop_back();
-        }
-
-        if(res.empty()) {
-            return "0";
-        }
-
-        reverse(res.begin(), res.end());
-        return res;
+        return res.empty() ? "0" : res;
     }
+
+    // M-2 : Same logic diff code
+    // string removeKdigits(string num, int k) {
+    //     stack<char> st;
+
+    //     for(int i = 0; i < num.size(); i++) {
+    //         while(!st.empty() && k > 0 && (int)st.top() > (int)num[i]) {
+    //             st.pop();
+    //             k--;
+    //         }
+    //         st.push(num[i]);
+    //     }
+
+    //     while(k) {
+    //         st.pop();
+    //         k--;
+    //     }
+
+    //     if(st.empty()) {
+    //         return "0";
+    //     }
+
+    //     string res = "";
+
+    //     while(!st.empty()) {
+    //         res += st.top();
+    //         st.pop();
+    //     }
+
+    //     while(!res.empty() && res.back() == '0') {
+    //         res.pop_back();
+    //     }
+
+    //     if(res.empty()) {
+    //         return "0";
+    //     }
+
+    //     reverse(res.begin(), res.end());
+    //     return res;
+    // }
 
     // M-1
     // string removeKdigits(string num, int k) {
