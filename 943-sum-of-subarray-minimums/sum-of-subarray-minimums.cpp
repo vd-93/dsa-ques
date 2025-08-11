@@ -54,6 +54,11 @@ public:
         int mod = (int)(1e9 + 7);
 
         for (int i = 0; i < n; i++) {
+            /* left -> number of subarray starting choices
+            right -> number of subarray ending choices 
+            so total subarray where nums[i] will be min -> (left * right)
+            if we took pse instead of psee -> duplicate subarrays will get considered
+            */
             int left = i - psee[i];
             int right = nse[i] - i;
 
